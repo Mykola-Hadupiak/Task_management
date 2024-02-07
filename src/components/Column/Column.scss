@@ -1,0 +1,55 @@
+@import '../../styles/main';
+
+.column {
+  width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &--todo {
+    background-color: $bg-todo-color;
+  }
+
+  &--progress {
+    background-color: $bg-in-progress-color;
+  }
+
+  &--done {
+    background-color: $bg-done-color;
+  }
+
+  &__text-container {
+    width: max-content;
+    padding-inline: 8px;
+    border-radius: 4px;
+
+    &--todo {
+      background-color: $text-todo-color;
+    }
+
+    &--progress {
+     background-color: $text-in-progress-color;
+    }
+
+    &--done {
+      background-color: $text-done-color;
+    }
+  }
+
+  &__button {
+    background-color: inherit;
+
+    @extend %button;
+
+    color: $main-button-color;
+
+    border-bottom: 1px solid transparent;
+    transition: all ease 0.3s;
+
+    &:hover {
+      border-color: $main-button-color;
+    }
+  }
+}

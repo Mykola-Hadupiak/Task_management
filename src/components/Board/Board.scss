@@ -1,0 +1,65 @@
+@import '../../styles/main';
+
+.board {
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+  }
+
+  &__id {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 48px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__button-copy {
+    background-color: inherit;
+  }
+
+  &__copy {
+    background-image: url('../../assets/copy.svg');
+    width: 24px;
+    height: 24px;
+
+    transition: all ease 0.1s;
+
+    &:hover {
+      background-image: url('../../assets/copy-hover.svg');
+    }
+  }
+
+  &__button-trash {
+    background-color: inherit;
+    padding-block: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    @extend %button;
+
+    color: $main-button-color;
+  }
+
+  &__trash {
+    background-image: url('../../assets/trash.svg');
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.columns {
+  display: flex;
+  gap: 20px;
+}
+
+.loader-container {
+  display: flex;
+  height: 100%;
+}

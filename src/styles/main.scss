@@ -1,1 +1,14 @@
+@import './vars';
 @import './reset';
+@import './extends';
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+html {
+  font-family: Poppins, sans-serif;
+  font-weight: 500;
+  min-height: 100vh;
+}

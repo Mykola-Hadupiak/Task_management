@@ -1,0 +1,19 @@
+@import '../../styles/main';
+
+.no-boards {
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    padding-top: 120px;
+  }
+
+  &__title {
+    @extend %bold;
+  }
+}
