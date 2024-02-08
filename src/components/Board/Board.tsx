@@ -5,6 +5,7 @@ import { Status } from '../../types/Status';
 import { Column } from '../Column';
 import { setBoard } from '../../feauters/boards/boardsSlice';
 import { deleteBoard } from '../../api/api';
+import { setCard } from '../../feauters/cards/cardsSlice';
 
 const columns = [
   {
@@ -49,6 +50,7 @@ export const Board = () => {
       }
 
       dispatch(setBoard(null));
+      dispatch(setCard());
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -76,7 +78,7 @@ export const Board = () => {
           type="button"
           onClick={handleDeleteBoard}
         >
-          <div className="board__trash" />
+          <div className="trash" />
           Delete board
         </button>
       </div>

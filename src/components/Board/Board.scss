@@ -47,11 +47,7 @@
     color: $main-button-color;
   }
 
-  &__trash {
-    background-image: url('../../assets/trash.svg');
-    width: 24px;
-    height: 24px;
-  }
+
 }
 
 .columns {
@@ -62,4 +58,10 @@
 .loader-container {
   display: flex;
   height: 100%;
+}
+
+.trash {
+  background-image: url('../../assets/trash.svg');
+  width: 24px;
+  height: 24px;
 }

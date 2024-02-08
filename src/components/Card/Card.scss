@@ -1,0 +1,59 @@
+@import '../../styles/main';
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: $white-color;
+  border-radius: 4px;
+
+  padding: 16px;
+
+  transition: all 0.3s ease;
+
+
+  &:hover {
+    background-color: #f9fafc;
+  }
+
+  &--edit:hover {
+    background-color: $white-color;
+  }
+
+  &__title {
+    max-width: 256px;
+
+    overflow-x: hidden;
+  }
+
+  &__top {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__button {
+    background-color: inherit;
+  }
+
+  &__description {
+    @extend %description;
+  }
+}
+
+.edit {
+  background-image: url('../../assets/edit.svg');
+  width: 24px;
+  height: 24px;
+}
+
+.button-save {
+  min-width: 156px;
+}

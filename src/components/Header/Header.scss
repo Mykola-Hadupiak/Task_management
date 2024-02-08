@@ -28,6 +28,8 @@
 
 .button {
   background-color: $main-button-color;
+  min-width: 186px;
+  min-height: 48px;
 
   padding: 12px 20px;
   border-radius: 6px;

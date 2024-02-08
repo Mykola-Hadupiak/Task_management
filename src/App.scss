@@ -10,18 +10,17 @@
   display: flex;
   flex-grow: 1;
   justify-content: center;
+  padding-inline: 20px;
 
   &__container {
     width: 100%;
     max-width: 1240px;
-
-    padding-inline: 20px;
   }
 
   &__content {
     display: flex;
     flex-direction: column;
-    padding-top: 40px;
+    padding-block: 40px;
     gap: 44px;
   }
 }
@@ -58,7 +57,21 @@
     }
   }
 
+  &__query {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__error {
+    position: absolute;
+    color: red;
+    top: 110%;
+  }
+
   &__button {
+    min-width: 138px;
     color: $main-button-color;
     border: 1px solid $main-button-color;
     border-radius: 6px;
@@ -74,4 +87,14 @@
       background-color: #f6f6f6;
     }
   }
+}
+
+.loading {
+  border-radius: 50%;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  border: 0.2em solid #ddd;
+  border-left-color: #000;
+  animation: load8 1.2s infinite linear;
 }
