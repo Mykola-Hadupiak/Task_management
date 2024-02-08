@@ -18,27 +18,3 @@
     gap: 8px;
   }
 }
-
-.logo {
-  background-image: url('../../assets//logo.svg');
-  height: 24px;
-  width: 24px;
-  background-repeat: no-repeat;
-}
-
-.button {
-  background-color: $main-button-color;
-  min-width: 186px;
-  min-height: 48px;
-
-  padding: 12px 20px;
-  border-radius: 6px;
-
-  @extend %button;
-
-  transition: all ease 0.3s;
-
-  &:hover {
-    background-color: #45464D;
-  }
-}

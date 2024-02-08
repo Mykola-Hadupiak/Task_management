@@ -9,12 +9,8 @@
 
   padding: 16px;
 
-  transition: all 0.3s ease;
+  @include hover(background-color, #f9fafc);
 
-
-  &:hover {
-    background-color: #f9fafc;
-  }
 
   &--edit:hover {
     background-color: $white-color;
@@ -46,14 +42,4 @@
   &__description {
     @extend %description;
   }
-}
-
-.edit {
-  background-image: url('../../assets/edit.svg');
-  width: 24px;
-  height: 24px;
-}
-
-.button-save {
-  min-width: 156px;
 }

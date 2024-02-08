@@ -59,7 +59,7 @@ export const Card: React.FC<Props> = ({ card }) => {
       setDescriptionEdit(updCard.description);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('errr');
+      console.log('Server error');
     } finally {
       setIsLoading(false);
       setIsEditing(false);
@@ -73,7 +73,7 @@ export const Card: React.FC<Props> = ({ card }) => {
       await deleteCard(id);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('smth went wrong');
+      console.log('Server error.');
     }
   };
 
@@ -136,7 +136,7 @@ export const Card: React.FC<Props> = ({ card }) => {
 
               <button
                 type="submit"
-                className="button-add button-save"
+                className="button-add button-add--save"
               >
                 {isLoading ? (
                   <div className="loading" />

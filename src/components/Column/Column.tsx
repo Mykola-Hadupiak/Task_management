@@ -25,6 +25,7 @@ export const Column: React.FC<Props> = ({ column }) => {
   const { status, title } = column;
   const [isAdding, setIsAdding] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [addTitle, setAddTitle] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useAppDispatch();
@@ -69,8 +70,7 @@ export const Column: React.FC<Props> = ({ column }) => {
       setAddTitle('');
       setDescription('');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('errr');
+      setIsError(true);
     } finally {
       setIsLoading(false);
       setIsAdding(false);
@@ -155,6 +155,10 @@ export const Column: React.FC<Props> = ({ column }) => {
                   <div className="loading" />
                 ) : (
                   'Add task'
+                )}
+
+                {isError && (
+                  <p className="button-add__error">Error</p>
                 )}
               </button>
             </div>

@@ -1,0 +1,95 @@
+.loading {
+  border-radius: 50%;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  border: 0.2em solid #ddd;
+  border-left-color: #000;
+  animation: load8 1.2s infinite linear;
+}
+
+.logo {
+  background-image: url('../assets/logo.svg');
+
+  @include square;
+
+  background-repeat: no-repeat;
+}
+
+.textarea {
+  resize: none;
+  min-height: 40px;
+  outline: none;
+  border-color: $border-color;
+  padding: 8px 16px;
+  border-radius: 4px;
+
+  @extend %input-text;
+  @include hover(border-color, #25272c);
+
+  &:focus {
+    border-color: #25272c;
+  }
+
+  &::placeholder {
+    color: $border-color;
+  }
+
+  &--desc {
+    min-height: 120px;
+  }
+}
+
+.button-cancel {
+  @extend %button;
+
+  color: $main-button-color;
+  background-color: inherit;
+}
+
+.button-add {
+  position: relative;
+  min-width: 112px;
+  height: 40px;
+
+  color: $main-button-color;
+  border: 1px solid $main-button-color;
+  border-radius: 6px;
+  background-color: $white-color;
+
+  @extend %button;
+
+  padding: 8px 20px;
+
+  @include hover(background-color, #f6f6f6);
+
+  &__error {
+    position: absolute;
+    color: red;
+
+    left: 0;
+    top: 90%;
+  }
+
+  &--save {
+    min-width: 156px;
+  }
+}
+
+.edit {
+  background-image: url('../assets/edit.svg');
+
+  @include square;
+}
+
+.loader-container {
+  display: flex;
+  height: 100%;
+}
+
+.trash {
+  background-image: url('../assets/trash.svg');
+
+  @include square;
+}
+

@@ -1,0 +1,57 @@
+@import '../../styles/main';
+
+.search-form {
+  display: flex;
+  gap: 16px;
+
+  &__input {
+    font-family: Poppins, sans-serif;
+    padding: 12px 20px;
+    outline: none;
+    flex-grow: 1;
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+
+    border: 1px solid $border-color;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: $border-color;
+    }
+
+    @include hover(border-color, #45464d);
+
+    &:focus {
+      border-color: #25272c;
+    }
+  }
+
+  &__query {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__error {
+    position: absolute;
+    color: red;
+    top: 110%;
+  }
+
+  &__button {
+    min-width: 138px;
+    color: $main-button-color;
+    border: 1px solid $main-button-color;
+    border-radius: 6px;
+    background-color: $white-color;
+
+    @extend %button;
+
+    padding: 12px 20px;
+
+    @include hover(background-color, #f6f6f6);
+  }
+}

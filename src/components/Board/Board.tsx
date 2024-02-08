@@ -1,36 +1,15 @@
-import { useEffect } from 'react';
+/* eslint-disable no-console */
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './Board.scss';
-import { Status } from '../../types/Status';
 import { Column } from '../Column';
 import { setBoard } from '../../feauters/boards/boardsSlice';
 import { deleteBoard } from '../../api/api';
 import { setCard } from '../../feauters/cards/cardsSlice';
-
-const columns = [
-  {
-    id: 1,
-    status: Status.TODO,
-    title: 'To do',
-  },
-  {
-    id: 2,
-    status: Status.IN_PROGRESS,
-    title: 'In progress',
-  },
-  {
-    id: 3,
-    status: Status.DONE,
-    title: 'Done',
-  },
-];
+import { columns } from '../../helpers/columns';
 
 export const Board = () => {
   const { board } = useAppSelector(state => state.boards);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-  }, [board]);
 
   const handleCopyClick = async () => {
     try {
@@ -38,21 +17,20 @@ export const Board = () => {
         await navigator.clipboard.writeText(board.id);
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Unable to copy text:', error);
     }
   };
 
   const handleDeleteBoard = async () => {
     try {
+      dispatch(setBoard(null));
+
       if (board) {
         await deleteBoard(board.id);
       }
 
-      dispatch(setBoard(null));
       dispatch(setCard());
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.log(error);
     }
   };

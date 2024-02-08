@@ -25,8 +25,8 @@
 
   &__copy {
     background-image: url('../../assets/copy.svg');
-    width: 24px;
-    height: 24px;
+
+    @include square;
 
     transition: all ease 0.1s;
 
@@ -46,22 +46,9 @@
 
     color: $main-button-color;
   }
-
-
 }
 
 .columns {
   display: flex;
   gap: 20px;
-}
-
-.loader-container {
-  display: flex;
-  height: 100%;
-}
-
-.trash {
-  background-image: url('../../assets/trash.svg');
-  width: 24px;
-  height: 24px;
 }

@@ -1,6 +1,8 @@
 @import './vars';
 @import './reset';
 @import './extends';
+@import './mixins';
+@import './blocks';
 
 * {
   box-sizing: border-box;
