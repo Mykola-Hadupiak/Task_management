@@ -8,12 +8,21 @@
   border-radius: 4px;
 
   padding: 16px;
+  cursor: pointer;
 
-  @include hover(background-color, #f9fafc);
+  // @include hover(background-color, #f9fafc);
 
+  &--edit {
+    cursor: default;
+  }
 
   &--edit:hover {
     background-color: $white-color;
+  }
+
+  &--dragging {
+    background-color: #e8ebf6;
+    opacity: 45%;
   }
 
   &__title {

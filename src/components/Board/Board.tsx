@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './Board.scss';
 import { Column } from '../Column';
@@ -61,11 +63,14 @@ export const Board = () => {
         </button>
       </div>
 
-      <div className="columns">
-        {columns.map(column => (
-          <Column key={column.id} column={column} />
-        ))}
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <div className="columns">
+          {columns.map(column => (
+            <Column key={column.id} column={column} />
+          ))}
+        </div>
+      </DndProvider>
+
     </div>
   );
 };

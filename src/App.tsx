@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.scss';
+
 import { Header } from './components/Header';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { thunkGetBoards } from './feauters/boards/boardsSlice';
@@ -45,7 +46,9 @@ export const App: React.FC = () => {
             <div className="main__content">
               <SearchForm />
 
-              {board && (<Board />)}
+              {board && (
+                <Board />
+              )}
             </div>
           )}
         </div>

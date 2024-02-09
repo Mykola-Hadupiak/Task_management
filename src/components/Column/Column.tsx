@@ -5,12 +5,14 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useDrop } from 'react-dnd';
 import { Status } from '../../types/Status';
 import './Column.scss';
 import { Card } from '../Card';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createCard } from '../../api/api';
-import { addCard } from '../../feauters/cards/cardsSlice';
+import { createCard, updateCard } from '../../api/api';
+import { addCard, updateCardReducer } from '../../feauters/cards/cardsSlice';
+import { Card as CardType } from '../../types/Card';
 
 type Props = {
   column: {
@@ -81,6 +83,29 @@ export const Column: React.FC<Props> = ({ column }) => {
     return cards.filter(card => card.status === status);
   }, [cards, status]);
 
+  const addItemToColumn = async (card: CardType) => {
+    const cardToUpd = {
+      ...card,
+      status,
+    };
+
+    dispatch(updateCardReducer(cardToUpd));
+
+    try {
+      await updateCard(cardToUpd);
+    } catch (error) {
+      dispatch(updateCardReducer(card));
+    }
+  };
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: 'card',
+    drop: (item: { card: CardType }) => addItemToColumn(item.card),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
   return (
     <div
       className={cn('column', {
@@ -88,18 +113,24 @@ export const Column: React.FC<Props> = ({ column }) => {
         'column--progress': status === Status.IN_PROGRESS,
         'column--done': status === Status.DONE,
       })}
+      ref={drop}
     >
       <div
         className={cn('column__text-container', {
           'column__text-container--todo': status === Status.TODO,
           'column__text-container--progress': status === Status.IN_PROGRESS,
           'column__text-container--done': status === Status.DONE,
+          'column__text-container--dragging': isOver,
         })}
       >
         <p className="column__text">
           {`● ${title}`}
         </p>
       </div>
+
+      {isOver && (
+        <div className="column__isDragging" />
+      )}
 
       {cardsToRender.length > 0 && (
         <div className="column__cards">

@@ -35,12 +35,15 @@ const cardsSlice = createSlice({
       state.cards = [];
     },
     updateCardReducer: (state, action: PayloadAction<Card>) => {
-      const updatedIndex = state.cards
-        .findIndex(card => card.id === action.payload.id);
+      const { id, ...updatedFields } = action.payload;
 
-      if (updatedIndex !== -1) {
-        state.cards[updatedIndex] = action.payload;
-      }
+      state.cards = state.cards.map(card => {
+        if (card.id === id) {
+          return { ...card, ...updatedFields };
+        }
+
+        return card;
+      });
     },
   },
   extraReducers: (builder) => {

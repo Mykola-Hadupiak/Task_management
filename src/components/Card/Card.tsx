@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
+import { useDrag } from 'react-dnd';
 import { Card as CardType } from '../../types/Card';
 import './Card.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -55,7 +56,9 @@ export const Card: React.FC<Props> = ({ card }) => {
       const updCard = await updateCard(data);
 
       dispatch(updateCardReducer(updCard));
+
       setTitleEdit(updCard.title);
+
       setDescriptionEdit(updCard.description);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -81,10 +84,21 @@ export const Card: React.FC<Props> = ({ card }) => {
     setIsEditing(true);
   };
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'card',
+    item: { card },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   return (
-    <div className={cn('card', {
-      'card--edit': isEditing,
-    })}
+    <div
+      className={cn('card', {
+        'card--edit': isEditing,
+        'card--dragging': isDragging,
+      })}
+      ref={!isEditing ? drag : null}
     >
       {isEditing && (
         <>
@@ -152,7 +166,9 @@ export const Card: React.FC<Props> = ({ card }) => {
 
       {!isEditing && (
         <>
-          <div className="card__top">
+          <div
+            className="card__top"
+          >
             <p className="card__title">{title}</p>
 
             <div className="card__buttons">

@@ -5,10 +5,12 @@ The database is hosted at https://render.com/, and the server itself is implemen
 
 Before you start using it, you need to download the server repository and run it by writing the command (npm start), you also need the file .env to access the database.
 
+Also, you need to paste your server IP into the file ./src/helpers/fetchMain.ts (if you are using a local server)
+
 # The main technologies that were used:
-* React (tsx), Redux toolkit
+* React (tsx), Redux toolkit (inc. thunk), React DnD
 * Hooks (useMemo, useState, useRef, useEffect, etc), custom hooks
-* Typescript
+* Typescript, fetch
 * SCSS, classNames utility, BEM
 
 # Instructions and functionality in a nutshell
