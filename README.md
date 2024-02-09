@@ -15,6 +15,8 @@ Also, you need to paste your server IP into the file ./src/helpers/fetchMain.ts 
 
 # Instructions and functionality in a nutshell
 
+To run, write **npm start**
+
 1. The first time you open the application, you will see a search where you can search for your board by ID or create a new board (if there are no boards yet).
 2. When you click on the "create new board" button, you will be redirected to a page with columns, namely: **To do**, **In progress**, **Done**.
 3. You can create, delete, edit or drag and drop your tasks into the appropriate columns.
