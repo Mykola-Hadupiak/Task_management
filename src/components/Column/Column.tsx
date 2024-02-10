@@ -84,6 +84,10 @@ export const Column: React.FC<Props> = ({ column }) => {
   }, [cards, status]);
 
   const addItemToColumn = async (card: CardType) => {
+    if (card.status === status) {
+      return;
+    }
+
     const cardToUpd = {
       ...card,
       status,
@@ -174,6 +178,7 @@ export const Column: React.FC<Props> = ({ column }) => {
                 type="button"
                 className="button-cancel"
                 onClick={handleCancel}
+                disabled={isLoading}
               >
                 Cancel
               </button>
@@ -181,6 +186,7 @@ export const Column: React.FC<Props> = ({ column }) => {
               <button
                 type="submit"
                 className="button-add"
+                disabled={isLoading}
               >
                 {isLoading ? (
                   <div className="loading" />

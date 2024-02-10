@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './Board.scss';
 import { Column } from '../Column';
@@ -12,6 +13,7 @@ import { columns } from '../../helpers/columns';
 export const Board = () => {
   const { board } = useAppSelector(state => state.boards);
   const dispatch = useAppDispatch();
+  const [isDeleting, setIsDeliting] = useState(false);
 
   const handleCopyClick = async () => {
     try {
@@ -25,15 +27,18 @@ export const Board = () => {
 
   const handleDeleteBoard = async () => {
     try {
-      dispatch(setBoard(null));
+      setIsDeliting(true);
 
       if (board) {
         await deleteBoard(board.id);
       }
 
       dispatch(setCard());
+      dispatch(setBoard(null));
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsDeliting(false);
     }
   };
 
@@ -57,6 +62,7 @@ export const Board = () => {
           className="board__button-trash"
           type="button"
           onClick={handleDeleteBoard}
+          disabled={isDeleting}
         >
           <div className="trash" />
           Delete board

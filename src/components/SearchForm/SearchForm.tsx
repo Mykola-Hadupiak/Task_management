@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './SearchForm.scss';
 import { thunkGetCards } from '../../feauters/cards/cardsSlice';
 import { getBoard } from '../../api/api';
@@ -10,6 +10,13 @@ export const SearchForm = () => {
   const [query, setQuery] = useState('');
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { board } = useAppSelector(state => state.boards);
+
+  useEffect(() => {
+    setQuery('');
+    setIsLoading(false);
+    setIsError(false);
+  }, [board]);
 
   const handleFindBoard = async () => {
     if (!query.trim()) {

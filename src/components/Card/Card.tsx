@@ -41,6 +41,8 @@ export const Card: React.FC<Props> = ({ card }) => {
 
     if (title === titleEdit && descriptionEdit === description) {
       setIsEditing(false);
+
+      return;
     }
 
     try {
@@ -90,7 +92,7 @@ export const Card: React.FC<Props> = ({ card }) => {
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }));
+  }), [card]);
 
   return (
     <div
@@ -144,6 +146,7 @@ export const Card: React.FC<Props> = ({ card }) => {
                 type="button"
                 className="button-cancel"
                 onClick={handleCancel}
+                disabled={isLoading}
               >
                 Cancel
               </button>
@@ -151,6 +154,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               <button
                 type="submit"
                 className="button-add button-add--save"
+                disabled={isLoading}
               >
                 {isLoading ? (
                   <div className="loading" />
