@@ -102,6 +102,13 @@ export const Column: React.FC<Props> = ({ column }) => {
     }
   };
 
+  const handleOnEnterSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handelSubmit(e);
+    }
+  };
+
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'card',
     drop: (item: { card: CardType }) => addItemToColumn(item.card),
@@ -160,6 +167,7 @@ export const Column: React.FC<Props> = ({ column }) => {
               disabled={isLoading}
               required
               ref={titleTextareaRef}
+              onKeyDown={handleOnEnterSubmit}
             />
 
             <textarea
@@ -171,6 +179,7 @@ export const Column: React.FC<Props> = ({ column }) => {
               value={description}
               onChange={e => setDescription(e.target.value)}
               disabled={isLoading}
+              onKeyDown={handleOnEnterSubmit}
             />
 
             <div className="form-add-new__buttons">

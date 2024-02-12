@@ -72,7 +72,17 @@
   }
 
   &--save {
+    position: relative;
     min-width: 156px;
+
+    &-error {
+      position: absolute;
+      content: "";
+
+      color: red;
+      top: 90%;
+      left: 0;
+    }
   }
 }
 
@@ -91,5 +101,21 @@
   background-image: url('../assets/trash.svg');
 
   @include square;
+
+  &--error {
+    position: absolute;
+    color: red;
+    font-size: 12px;
+    bottom: 100%;
+    left: -250%;
+  }
+
+  &--error-on-board {
+    position: absolute;
+    color: red;
+    font-size: 12px;
+    top: 80%;
+    left: 20%;
+  }
 }
 

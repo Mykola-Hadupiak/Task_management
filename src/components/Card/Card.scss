@@ -10,8 +10,6 @@
   padding: 16px;
   cursor: pointer;
 
-  // @include hover(background-color, #f9fafc);
-
   &--edit {
     cursor: default;
   }
@@ -45,6 +43,7 @@
   }
 
   &__button {
+    position: relative;
     background-color: inherit;
   }
 

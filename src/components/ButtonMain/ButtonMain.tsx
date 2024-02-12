@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import './ButtonMain.scss';
 import { setBoard } from '../../feauters/boards/boardsSlice';
@@ -9,6 +10,7 @@ export const ButtonMain = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleCreateBoard = async () => {
     try {
@@ -18,6 +20,8 @@ export const ButtonMain = () => {
 
       dispatch(setBoard(board));
       dispatch(setCard());
+
+      navigate(`/board/${board.id}`);
     } catch (error) {
       setIsError(true);
     } finally {

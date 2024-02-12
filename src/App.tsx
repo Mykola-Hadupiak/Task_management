@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
+import { Outlet } from 'react-router-dom';
 
 import { Header } from './components/Header';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { thunkGetBoards } from './feauters/boards/boardsSlice';
 import { NoBoards } from './components/NoBoards';
 import { Loader } from './components/Loader';
-import { Board } from './components/Board';
-import { SearchForm } from './components/SearchForm';
 
 export const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -17,10 +16,12 @@ export const App: React.FC = () => {
     board,
     error,
   } = useAppSelector(state => state.boards);
+  const [firstLoad, setFirstLoad] = useState(false);
 
   useEffect(() => {
     dispatch(thunkGetBoards());
-  }, [dispatch, board]);
+    setFirstLoad(true);
+  }, [dispatch, board, firstLoad]);
 
   return (
     <div className="App">
@@ -38,17 +39,13 @@ export const App: React.FC = () => {
             <p>Server error</p>
           )}
 
-          {boards.length === 0 && !loading && !error && (
+          {boards.length === 0 && !loading && !error && firstLoad && (
             <NoBoards />
           )}
 
           {!!boards.length && (
             <div className="main__content">
-              <SearchForm />
-
-              {board && (
-                <Board />
-              )}
+              <Outlet />
             </div>
           )}
         </div>

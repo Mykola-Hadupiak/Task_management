@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import './Board.scss';
 import { Column } from '../Column';
@@ -14,6 +16,8 @@ export const Board = () => {
   const { board } = useAppSelector(state => state.boards);
   const dispatch = useAppDispatch();
   const [isDeleting, setIsDeliting] = useState(false);
+  const [isErrorOnDelete, setIsErrorOnDelete] = useState(false);
+  const navigate = useNavigate();
 
   const handleCopyClick = async () => {
     try {
@@ -27,6 +31,7 @@ export const Board = () => {
 
   const handleDeleteBoard = async () => {
     try {
+      setIsErrorOnDelete(false);
       setIsDeliting(true);
 
       if (board) {
@@ -35,8 +40,9 @@ export const Board = () => {
 
       dispatch(setCard());
       dispatch(setBoard(null));
+      navigate('/board');
     } catch (error) {
-      console.log(error);
+      setIsErrorOnDelete(true);
     } finally {
       setIsDeliting(false);
     }
@@ -66,6 +72,15 @@ export const Board = () => {
         >
           <div className="trash" />
           Delete board
+
+          {isErrorOnDelete && (
+            <div className={cn({
+              'trash--error-on-board': isErrorOnDelete,
+            })}
+            >
+              Error on delete
+            </div>
+          )}
         </button>
       </div>
 

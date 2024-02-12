@@ -21,6 +21,8 @@ export const Card: React.FC<Props> = ({ card }) => {
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
+  const [isErrorOnEdit, setIsErrorOnEdit] = useState(false);
+  const [isErrorOnDelete, setIsErrorOnDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [titleEdit, setTitleEdit] = useState(title);
   const [descriptionEdit, setDescriptionEdit] = useState(description);
@@ -30,10 +32,12 @@ export const Card: React.FC<Props> = ({ card }) => {
     setIsEditing(false);
     setDescriptionEdit(description);
     setTitleEdit(title);
+    setIsErrorOnDelete(false);
   };
 
   const handelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsErrorOnDelete(false);
 
     if (!board) {
       return;
@@ -46,7 +50,9 @@ export const Card: React.FC<Props> = ({ card }) => {
     }
 
     try {
+      setIsErrorOnEdit(false);
       setIsLoading(true);
+
       const data = {
         id,
         title: titleEdit,
@@ -63,8 +69,7 @@ export const Card: React.FC<Props> = ({ card }) => {
 
       setDescriptionEdit(updCard.description);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('Server error');
+      setIsErrorOnEdit(true);
     } finally {
       setIsLoading(false);
       setIsEditing(false);
@@ -73,17 +78,25 @@ export const Card: React.FC<Props> = ({ card }) => {
 
   const handleDelete = async () => {
     try {
+      setIsErrorOnDelete(false);
       dispatch(removeCard(card));
 
       await deleteCard(id);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('Server error.');
+      setIsErrorOnDelete(true);
     }
   };
 
   const handleEdit = () => {
     setIsEditing(true);
+    setIsErrorOnDelete(false);
+  };
+
+  const handleOnEnterSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handelSubmit(e);
+    }
   };
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -114,10 +127,22 @@ export const Card: React.FC<Props> = ({ card }) => {
               onClick={handleDelete}
             >
               <div className="trash" />
+
+              {isErrorOnDelete && (
+                <div className={cn({
+                  'trash--error': isErrorOnDelete,
+                })}
+                >
+                  Error on delete
+                </div>
+              )}
             </button>
           </div>
 
-          <form className="form" onSubmit={handelSubmit}>
+          <form
+            className="form"
+            onSubmit={handelSubmit}
+          >
             <textarea
               name="title"
               id="title"
@@ -128,6 +153,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               onChange={e => setTitleEdit(e.target.value)}
               disabled={isLoading}
               required
+              onKeyDown={handleOnEnterSubmit}
             />
 
             <textarea
@@ -139,6 +165,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               value={descriptionEdit}
               onChange={e => setDescriptionEdit(e.target.value)}
               disabled={isLoading}
+              onKeyDown={handleOnEnterSubmit}
             />
 
             <div className="form-add-new__buttons">
@@ -159,7 +186,18 @@ export const Card: React.FC<Props> = ({ card }) => {
                 {isLoading ? (
                   <div className="loading" />
                 ) : (
-                  'Save changes'
+                  <>
+                    Save changes
+
+                    {isErrorOnEdit && (
+                      <div className={cn({
+                        'button-add--save-error': isErrorOnEdit,
+                      })}
+                      >
+                        Error on edit
+                      </div>
+                    )}
+                  </>
                 )}
               </button>
             </div>
@@ -192,6 +230,15 @@ export const Card: React.FC<Props> = ({ card }) => {
                 onClick={handleDelete}
               >
                 <div className="trash" />
+
+                {isErrorOnDelete && (
+                  <div className={cn({
+                    'trash--error': isErrorOnDelete,
+                  })}
+                  >
+                    Error on delete
+                  </div>
+                )}
               </button>
             </div>
           </div>
