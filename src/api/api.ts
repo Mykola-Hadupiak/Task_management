@@ -18,6 +18,13 @@ export const deleteBoard = (id: string) => {
   return client.delete(`/boards/${id}`);
 };
 
+export const updateSortedinDb = (
+  boardId: string,
+  sorted: string[],
+) => {
+  return client.put(`/boards/${boardId}`, { sorted });
+};
+
 export const getCards = (id: string) => {
   return client.get<Card[]>(`/cards/${id}`);
 };

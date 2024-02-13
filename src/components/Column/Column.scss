@@ -10,13 +10,12 @@
   flex-direction: column;
   gap: 20px;
 
-  &__isDragging::after {
-    position: absolute;
-    content: "";
-    left: 20px;
-    right: 20px;
-    border-bottom: 2px solid #5b97bd;
-    border-radius: 2px;
+  &__isDragging {
+    height: 40px;
+  }
+
+  &--dragging {
+    margin-bottom: 20px;
   }
 
   &--todo {

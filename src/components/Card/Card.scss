@@ -23,6 +23,16 @@
     opacity: 45%;
   }
 
+  &--is-over {
+    background-color: #fafafa;
+  }
+
+  &__conatiner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   &__title {
     max-width: 256px;
 

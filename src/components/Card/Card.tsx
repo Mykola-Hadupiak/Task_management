@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import { useDrag } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
 import { Card as CardType } from '../../types/Card';
 import './Card.scss';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { removeCard, updateCardReducer } from '../../feauters/cards/cardsSlice';
-import { deleteCard, updateCard } from '../../api/api';
+import { deleteCard, updateCard, updateSortedinDb } from '../../api/api';
+import {
+  removeFromSorted,
+  updateSorted,
+} from '../../feauters/boards/boardsSlice';
 
 type Props = {
   card: CardType;
+  index: number;
 };
 
-export const Card: React.FC<Props> = ({ card }) => {
+export const Card: React.FC<Props> = ({ card, index }) => {
   const {
     id,
     title,
@@ -80,6 +85,7 @@ export const Card: React.FC<Props> = ({ card }) => {
     try {
       setIsErrorOnDelete(false);
       dispatch(removeCard(card));
+      dispatch(removeFromSorted(id));
 
       await deleteCard(id);
     } catch (error) {
@@ -107,13 +113,52 @@ export const Card: React.FC<Props> = ({ card }) => {
     }),
   }), [card]);
 
+  const handleDrop = async (draggedCardId: string) => {
+    setIsErrorOnEdit(false);
+
+    if (!board) {
+      return;
+    }
+
+    const draggedIndex = board.sorted.indexOf(draggedCardId);
+
+    if (draggedIndex === undefined || draggedIndex === index) {
+      return;
+    }
+
+    const newSorted = [...board.sorted];
+
+    newSorted.splice(draggedIndex, 1);
+    newSorted.splice(index, 0, draggedCardId);
+
+    dispatch(updateSorted(newSorted));
+
+    try {
+      await updateSortedinDb(board.id, newSorted);
+    } catch (error) {
+      setIsErrorOnEdit(true);
+    }
+  };
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: 'card',
+    drop: (
+      item: {
+        card: { id: string }, index: number },
+    ) => handleDrop(item.card.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }), [board]);
+
   return (
     <div
       className={cn('card', {
         'card--edit': isEditing,
         'card--dragging': isDragging,
+        'card--is-over': isOver,
       })}
-      ref={!isEditing ? drag : null}
+      ref={drop}
     >
       {isEditing && (
         <>
@@ -207,7 +252,10 @@ export const Card: React.FC<Props> = ({ card }) => {
       )}
 
       {!isEditing && (
-        <>
+        <div
+          className="card__conatiner"
+          ref={!isEditing ? drag : null}
+        >
           <div
             className="card__top"
           >
@@ -248,7 +296,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               {description}
             </p>
           )}
-        </>
+        </div>
       )}
     </div>
   );

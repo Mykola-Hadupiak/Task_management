@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createCard, updateCard } from '../../api/api';
 import { addCard, updateCardReducer } from '../../feauters/cards/cardsSlice';
 import { Card as CardType } from '../../types/Card';
+import { addToSorted } from '../../feauters/boards/boardsSlice';
 
 type Props = {
   column: {
@@ -69,6 +70,7 @@ export const Column: React.FC<Props> = ({ column }) => {
       const card = await createCard(board.id, data);
 
       dispatch(addCard(card));
+      dispatch(addToSorted(card.id));
       setAddTitle('');
       setDescription('');
     } catch (error) {
@@ -80,8 +82,14 @@ export const Column: React.FC<Props> = ({ column }) => {
   };
 
   const cardsToRender = useMemo(() => {
-    return cards.filter(card => card.status === status);
-  }, [cards, status]);
+    if (!board) {
+      return [];
+    }
+
+    return board.sorted
+      .map(cardId => cards
+        .find(card => card.id === cardId && card.status === status));
+  }, [board, cards, status]);
 
   const addItemToColumn = async (card: CardType) => {
     if (card.status === status) {
@@ -109,7 +117,7 @@ export const Column: React.FC<Props> = ({ column }) => {
     }
   };
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [, drop] = useDrop(() => ({
     accept: 'card',
     drop: (item: { card: CardType }) => addItemToColumn(item.card),
     collect: (monitor) => ({
@@ -131,7 +139,6 @@ export const Column: React.FC<Props> = ({ column }) => {
           'column__text-container--todo': status === Status.TODO,
           'column__text-container--progress': status === Status.IN_PROGRESS,
           'column__text-container--done': status === Status.DONE,
-          'column__text-container--dragging': isOver,
         })}
       >
         <p className="column__text">
@@ -139,14 +146,12 @@ export const Column: React.FC<Props> = ({ column }) => {
         </p>
       </div>
 
-      {isOver && (
-        <div className="column__isDragging" />
-      )}
-
       {cardsToRender.length > 0 && (
         <div className="column__cards">
-          {cardsToRender.map(card => (
-            <Card card={card} key={card.id} />
+          {cardsToRender.map((card, ind) => (
+            card !== undefined && (
+              <Card card={card} key={card.id} index={ind} />
+            )
           ))}
         </div>
       )}

@@ -30,6 +30,22 @@ const boardsSlice = createSlice({
     setBoard: (state, action: PayloadAction<Board | null>) => {
       state.board = action.payload;
     },
+    addToSorted: (state, action: PayloadAction<string>) => {
+      if (state.board) {
+        state.board.sorted.push(action.payload);
+      }
+    },
+    removeFromSorted: (state, action: PayloadAction<string>) => {
+      if (state.board) {
+        state.board.sorted = state.board.sorted
+          .filter(id => id !== action.payload);
+      }
+    },
+    updateSorted: (state, action: PayloadAction<string[]>) => {
+      if (state.board) {
+        state.board.sorted = action.payload;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -50,6 +66,9 @@ const boardsSlice = createSlice({
 
 export const {
   setBoard,
+  addToSorted,
+  removeFromSorted,
+  updateSorted,
 } = boardsSlice.actions;
 
 export default boardsSlice.reducer;
