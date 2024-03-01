@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'https://task-management-server-0c0r.onrender.com';
+const BASE_URL = 'https://task-management-server-0sta.onrender.com';
 
 function wait(delay: number) {
   return new Promise(resolve => {
